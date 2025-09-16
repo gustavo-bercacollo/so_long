@@ -5,7 +5,7 @@
 #                                                     +:+ +:+         +:+      #
 #    By: gbercaco                                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/09/15 18:00:00 by gbercaco          #+#    #+#             #
+#    Created: 2025/09/15 18:00:00 by gbercaco          #+#    #+#              #
 # **************************************************************************** #
 
 NAME_M = so_long
@@ -28,7 +28,7 @@ SRC_M = src/main.c \
         src/map_checks.c \
         src/map_validate_characters.c \
         src/utils_map_validate.c \
-	src/terminal_validations.c
+        src/terminal_validations.c
 
 SRC_B = bonus/src/main.c \
         bonus/src/handle_enemy.c \
@@ -42,7 +42,7 @@ SRC_B = bonus/src/main.c \
         bonus/src/utils_map_validate.c \
         bonus/src/free.c \
         bonus/src/validation.c \
-	src/terminal_validations.c
+        bonus/src/terminal_validations.c
 
 OBJ_M = $(SRC_M:.c=.o)
 OBJ_B = $(SRC_B:.c=.o)
@@ -82,9 +82,10 @@ bonus: $(NAME_B)
 $(LIBFT_DIR)/libft.a:
 	$(MAKE) -C $(LIBFT_DIR)
 
-# Compila MLX42
+# Compila MLX42 (garante que a pasta build exista)
 $(MLX42_DIR)/libmlx42.a:
-	cd $(MLX42_DIR) && cmake .. && make
+	mkdir -p $(MLX42_DIR)
+	cd $(MLX42_DIR) && cmake .. && make -j4
 
 # Executável mandatory
 $(NAME_M): $(OBJ_M) $(LIBFT_DIR)/libft.a $(MLX42_DIR)/libmlx42.a
@@ -108,11 +109,11 @@ $(NAME_B): $(OBJ_B) $(LIBFT_DIR)/libft.a $(MLX42_DIR)/libmlx42.a
 clean:
 	rm -f $(OBJ_M) $(OBJ_B)
 	$(MAKE) -C $(LIBFT_DIR) clean
-	cd $(MLX42_DIR) && make clean || true
+	[ -d $(MLX42_DIR) ] && $(MAKE) -C $(MLX42_DIR) clean || true
 
 fclean: clean
 	rm -f $(NAME_M) $(NAME_B)
 	$(MAKE) -C $(LIBFT_DIR) fclean
-	cd $(MLX42_DIR) && rm -rf CMakeFiles libmlx42.a *.o || true
+	rm -rf $(MLX42_DIR)
 
 re: fclean all
