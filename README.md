@@ -1,6 +1,6 @@
 # 🎮 So_long - 2D Game Project
 
-![So_long Gameplay](./textures/gameplay.png)
+![So_long Gameplay](./textures/Game.png)
 
 ## 📋 Description
 
